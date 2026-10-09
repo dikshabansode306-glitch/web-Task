@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Employee Details</h2>
+    
+    <!-- Input Form -->
+    <form id="employeeForm">
+        <div class="form-group">
+            <label for="empId">ID:</label>
+            <input type="text" id="empId" placeholder="Enter Employee ID" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="empName">Name:</label>
+            <input type="text" id="empName" placeholder="Enter Employee Name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="empRole">Role:</label>
+            <input type="text" id="empRole" placeholder="Enter Employee Role (e.g., Developer, Manager)" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="empSalary">Salary:</label>
+            <input type="number" id="empSalary" placeholder="Enter Salary" required>
+        </div>
+        
+        <button type="submit">Add to Table</button>
+    </form>
+
+    <!-- Data Table -->
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Salary</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamic rows will be inserted here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Grab elements from the DOM
+    const employeeForm = document.getElementById('employeeForm');
+    const employeeTableBody = document.querySelector('#employeeTable tbody');
+
+    // Handle form submission
+    employeeForm.addEventListener('submit', function(event) {
+        // Prevent the page from refreshing on form submit
+        event.preventDefault();
+
+        // Get values from input fields
+        const id = document.getElementById('empId').value;
+        const name = document.getElementById('empName').value;
+        const role = document.getElementById('empRole').value;
+        const salary = document.getElementById('empSalary').value;
+
+        // Create a new table row element
+        const row = document.createElement('tr');
+
+        // Insert structured column cells into the row
+        row.innerHTML = `
+            <td>${id}</td>
+            <td>${name}</td>
+            <td>${role}</td>
+            <td>$${Number(salary).toLocaleString()}</td>
+            <td><button class="delete-btn">Delete</button></td>
+        `;
+
+        // Append the new row to the table body
+        employeeTableBody.appendChild(row);
+
+        // Reset the form input fields for the next entry
+        employeeForm.reset();
+
+        // Add delete functionality to the specific row button
+        row.querySelector('.delete-btn').addEventListener('click', function() {
+            row.remove();
+        });
+    });
+</script>
+
+</body>
+</html>
